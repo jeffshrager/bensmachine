@@ -72,7 +72,7 @@ def main():
     ap.add_argument("--end", type=int, default=2025)
 
     # feedback knobs
-    ap.add_argument("--alpha", type=float, default=0.15, help="Public response rate λ")
+    ap.add_argument("--alpha", type=float, default=0.15, help="Public response rate λ") # TODO alpha/lambda?
     ap.add_argument("--gain", type=float, default=1.50, help="Public gain γ in tanh(γ S)")
     ap.add_argument("--noise", type=float, default=0.03, help="Public noise σ")
 

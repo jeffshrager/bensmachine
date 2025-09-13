@@ -103,6 +103,24 @@ class Court:
                     lean=PARTY_TO_LEAN[president_party],
                 )
             )
+    def random_init(self, year) -> None:
+        """Initialize court with justices appointed at random times in the past."""
+        while len(self.justices) < self.size:
+            # Random appointment year within term limit period (if applicable)
+            if self.term_limit_years is not None:
+                years_back = random.randint(0, self.term_limit_years - 1)
+            else:
+                years_back = random.randint(0, 20)  # Arbitrary range for lifetime tenure
+            
+            self.justices.append(
+                Justice(
+                    appointed_year=year - years_back,
+                    term_limit_years=self.term_limit_years,
+                    lean=random.uniform(-1, 1)
+                )
+            )
+        
+
 
 
 @dataclass
@@ -183,6 +201,7 @@ def simulate(params: SimParams, presidents_by_year: Dict[int, str]) -> SimResult
     random.seed(params.seed)
 
     court = Court(size=params.court_size, term_limit_years=params.term_limit_years)
+    court.random_init(params.start_year)
 
     # Bootstrap: fill Court in start_year with the then-president's party
     pres0 = presidents_by_year.get(params.start_year, "R")
